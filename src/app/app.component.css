@@ -41,7 +41,9 @@ body {
   background-color: var(--background-color);
   font-family: var(--default-font);
 }
-
+.modal-backdrop.show {
+  opacity:0 !important;
+}
 a {
   color: var(--accent-color);
   text-decoration: none;
