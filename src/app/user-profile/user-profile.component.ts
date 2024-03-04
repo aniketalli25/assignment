@@ -71,12 +71,19 @@ export class UserProfileComponent implements OnInit {
 
   submitForm() {
     if (this.profileForm.valid) {
-      // You can perform form submission logic here
-      this.http.put(`http://localhost:3000/profiles/${this.formData.id}`, this.profileForm.value).subscribe(res => {
-        alert('Data updated successfully');
-        // Navigate to profile page with form data
-        this.router.navigate(['/profile'], { state: { formData: this.profileForm.value } });
-      });
+      // Send HTTP PUT request to update profile data
+      this.http.put(`http://localhost:3000/profiles/${this.formData.id}`, this.profileForm.value).subscribe(
+        (res) => {
+          // Upon successful update, show alert and navigate back to profile page with updated data
+          alert('Data updated successfully');
+          this.router.navigate(['/profile'], { state: { formData: this.profileForm.value } });
+        },
+        (error) => {
+          // Handle error if the server responds with an error
+          console.error('Error updating profile:', error);
+          // You could show an error message to the user here
+        }
+      );
     }
   }
 

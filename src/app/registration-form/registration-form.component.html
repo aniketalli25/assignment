@@ -53,17 +53,17 @@
         </div>
       </div>
       <div class="mt-2">
-        <input type="text" class="form-control" placeholder="About" formControlName="about">
+        <textarea  class="form-control mx-2" placeholder="About" formControlName="about"> </textarea>
 
       </div>
 
       <div>
-        <label for="ageSlide" class="mx-2">Age:</label>
+        <label for="ageSlide" class="mx-2">Age:</label> <br>
         <input type="range" class="form-range mx-2" id="ageSlider" min="1" max="100" formControlName="age">
         <span>{{ profileForm.get('age')?.value }}</span>
       </div>
-      <div>
-        <button type="submit">Submit</button>
+      <div class=" col-md-10 d-flex justify-content-center">
+        <button type="submit" class=" btn px-5" style="background: rgba(var(--accent-color-rgb), 0.85); color: white;">Submit</button>
       </div>
     </div>
   </div>

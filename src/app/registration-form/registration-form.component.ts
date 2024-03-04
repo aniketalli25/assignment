@@ -44,26 +44,19 @@ export class RegistrationFormComponent {
   }
 
 
-  handleFileInput(event: any) {
-    const file = event.target.files[0];
-    if (file) {
-      const formData = new FormData();
-      formData.append('profileImage', file);
-
-      // Merge the formData with the existing form data
-      const existingFormData = this.profileForm.get('profileImage')?.value;
-      if (existingFormData) {
-        Object.keys(existingFormData).forEach(key => {
-          formData.append(key, existingFormData[key]);
+  handleFileInput(event: Event) {
+    const fileInput = event.target as HTMLInputElement;
+    if (fileInput && fileInput.files && fileInput.files.length > 0) {
+      const file = fileInput.files[0];
+      if (file) {
+        this.profileForm!.patchValue({  // Here we use the non-null assertion operator
+          profileImage: file
         });
+        this.profileForm!.get('profileImage')!.updateValueAndValidity();  // Also using the non-null assertion operator
       }
-
-      // Update the profileForm with the merged formData
-      this.profileForm.patchValue({
-        profileImage: formData
-      });
     }
   }
+
 
 
   removeInterest(tag: string) {

@@ -16,6 +16,9 @@
   font-size: 12px;
   color: #FFF;
 }
+.modal-backdrop.show {
+  opacity:0 !important;
+}
 
 ::placeholder {
   color: gray;

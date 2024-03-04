@@ -6,3 +6,6 @@
 /* .modal-backdrop.show { */
   /* opacity: !important;
 } */
+.modal-backdrop.show {
+  opacity:0 !important;
+}
