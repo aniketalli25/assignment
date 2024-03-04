@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
@@ -16,75 +16,91 @@ export class UserProfileComponent implements OnInit {
     public router: Router
   ) {}
 
-  formData: any;
-  profileForm!: FormGroup;
-
+data:any;
   ngOnInit() {
-    // Initialize profileForm
+    this.http.get('http://localhost:3000/profiles').subscribe(res=>{
+      this.data=res;
+    })
     this.profileForm = this.formBuilder.group({
-      firstName: [''],
-      lastName: [''],
-      addressType: [''],
+      firstName: ['', Validators.required],
+      lastName: ['', Validators.required],
+      addressType: ['home'],
       interest: [''],
+      interests: [[]],
       address1: [''],
       address2: [''],
       companyAddress1: [''],
       companyAddress2: [''],
-      age: [''],
-      profileImage: ['']
-    });
+      age: [0], // Assuming the age range starts from 0
+      about: [''] // Assuming the age range starts from 0
 
-    this.route.paramMap.subscribe(params => {
-      if (window.history.state.formData) {
-        this.formData = window.history.state.formData;
-        // Populate form fields with data
-        this.populateForm(this.formData);
-      }
     });
   }
-
-  populateForm(data: any) {
-    this.profileForm.patchValue({
-      firstName: data.firstName,
-      lastName: data.lastName,
-      addressType: data.addressType,
-      interest: data.interest,
-      address1: data.address1,
-      address2: data.address2,
-      companyAddress1: data.companyAddress1,
-      companyAddress2: data.companyAddress2,
-      age: data.age,
-      profileImage: data.profileImage
+  profileForm!: FormGroup;
+  mainid:any;
+  editprofile(id: string) {
+    this.http.get(`http://localhost:3000/profiles/${id}`).subscribe((userData: any) => {
+      this.profileForm.patchValue({
+        firstName: userData.firstName,
+        lastName: userData.lastName,
+        addressType: userData.addressType,
+        age: userData.age,
+        about: userData.about,
+        interest: userData.interest,
+        // Fill other form fields similarly
+      });
     });
+this.mainid=id;
   }
-
-  editPhoto() {
-    // Implement logic to handle photo editing
-    console.log('Editing photo...');
-  }
-
-  editProfile(id: any) {
-    this.http.get(`http://localhost:3000/profiles/${id}`).subscribe((res: any) => {
-      this.populateForm(res);
-    });
-  }
-
+  
+  
   submitForm() {
     if (this.profileForm.valid) {
-      // You can perform form submission logic here
-      this.http.put(`http://localhost:3000/profiles/${this.formData.id}`, this.profileForm.value).subscribe(res => {
+      const formData = this.profileForm.value;
+      console.log(formData);
+      // Perform form submission logic here
+      this.http.put(`http://localhost:3000/profiles/${this.mainid}`, formData).subscribe(res => {
         alert('Data updated successfully');
+        location.reload();
         // Navigate to profile page with form data
-        this.router.navigate(['/profile'], { state: { formData: this.profileForm.value } });
+        this.router.navigate(['/profile'], { state: { formData: formData } });
+      });
+    }
+  }
+  
+
+
+
+  handleFileInput(event: any) {
+    const file = event.target.files[0];
+    if (file) {
+      const formData = new FormData();
+      formData.append('profileImage', file);
+
+      // Merge the formData with the existing form data
+      const existingFormData = this.profileForm.get('profileImage')?.value;
+      if (existingFormData) {
+        Object.keys(existingFormData).forEach(key => {
+          formData.append(key, existingFormData[key]);
+        });
+      }
+
+      // Update the profileForm with the merged formData
+      this.profileForm.patchValue({
+        profileImage: formData
       });
     }
   }
 
-  handleFileInput(event: any) {
-    // File handling logic
-  }
 
   removeInterest(tag: string) {
     // Remove interest logic here
   }
+
+
+
+
+
+  
+
 }

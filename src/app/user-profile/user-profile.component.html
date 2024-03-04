@@ -1,4 +1,4 @@
-<!-- <table class="table table-dark">
+<table class="table table-dark">
     <thead>
       <tr>
         <th scope="col">#</th>
@@ -7,78 +7,32 @@
         <th scope="col">AddressType</th>
         <th scope="col">Interest</th>
         <th scope="col">Age</th>
+        <th scope="col">About</th>
         <th scope="col">Edit</th>
       </tr>
     </thead>
     <tbody>
-      <tr *ngFor="let item of data">
-        <th scope="row">{{ item.id }}</th>
+      <tr *ngFor="let item of data; let i=index">
+        <th scope="row">{{ i }}</th>
         <td>{{ item.firstName }}</td>
         <td>{{ item.lastName }}</td>
         <td>{{ item.addressType }}</td>
         <td>{{ item.interest }}</td>
         <td>{{ item.age }}</td>
-        <td><button class="btn btn-danger">Edit</button></td>
+        <td>{{ item.about }}</td>
+        <td> <div
+          class="register-btn btn py-1 btn-danger text-center"
+          data-bs-toggle="modal"
+          data-bs-target="#exampleModal" (click)="editprofile(item.id)">
+          Edit
+        </div></td>
       </tr>
     </tbody>
-  </table> -->
-
- <div class="container-fluid">
-  <div class="row">
-    <div class="col-md-12">
-      <h3 class="pt-5  text-center">Profile</h3>
-    </div>
-    <div class="col-md-4">
-      <img class="float-right" src="https://img.freepik.com/premium-vector/user-profile-icon-flat-style-member-avatar-vector-illustration-isolated-background-human-permission-sign-business-concept_157943-15752.jpg" style="width: 200px;" alt="">
-
-    </div>
-    <div class="col-md-8 px-4">
-      <div class="row mt-5">
-        <div class="col-md-12">
-          <div class="d-flex">
-          <h4 class=""><b>{{ formData.firstName }} {{ formData.lastName }}</b></h4>
-            <small class="px-5 mt-1"><b>{{ formData.age }} Years</b></small>
-          </div>
-          <div>
-          <address class=""><b>{{ formData.address }}</b></address>
-
-          </div>
-          <div>
-           <b> My Interest : {{ formData.interest }}</b>
-          </div>
-          <div class="mt-2">
-            <div> <b>About</b></div>
-            <p>{{ formData.about }}</p>
-            </div>
-        </div>
-
-      </div>
-    </div>
-    <div class="col-md-12">
-      <div class="row">
-        <div class="col-md-4 ">
-         <div class="float-right user-profile-btn ">
-          <button class="mx-2 px-3">Edit photo</button>
-          <div
-          class="register-btn btn py-1 btn-primary text-center"
-          data-bs-toggle="modal"
-          data-bs-target="#exampleModal"
-       (click)="populateForm(this.formData)" >
-          Edit Profile
-        </div>
-         </div>
-        </div>
-      </div>
-
-    </div>
-  </div>
- </div>
+  </table>
 
 
 
-
-
- <div
+  <div
   class="modal fade mt-5 pt-5"
   id="exampleModal"
   tabindex="-1"
@@ -146,6 +100,10 @@
                   <input type="text" class="form-control" placeholder="Company Address 2" formControlName="companyAddress2">
                 </div>
               </div>
+              <div class="mt-2">
+                <input type="text" class="form-control" placeholder="About" formControlName="about">
+        
+              </div>
         
               <div>
                 <label for="ageSlide" class="mx-2">Age:</label>
@@ -164,3 +122,4 @@
     </div>
   </div>
 </div>
+
