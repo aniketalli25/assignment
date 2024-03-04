@@ -25,7 +25,8 @@ export class RegistrationFormComponent {
       address2: [''],
       companyAddress1: [''],
       companyAddress2: [''],
-      age: [0] // Assuming the age range starts from 0
+      age: [0], // Assuming the age range starts from 0
+      about: [''] // Assuming the age range starts from 0
 
     });
   }
